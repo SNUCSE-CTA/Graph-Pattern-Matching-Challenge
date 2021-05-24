@@ -18,5 +18,7 @@
 
 using Vertex = int32_t;
 using Label = int32_t;
+using Embedding = std::vector<std::pair<Vertex, Vertex>>;
+using Visited = std::vector<bool>;
 
 #endif  // COMMON_H_
