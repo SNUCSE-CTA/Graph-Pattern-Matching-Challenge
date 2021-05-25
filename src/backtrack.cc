@@ -22,8 +22,83 @@ void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
   visited.resize(data.GetNumVertices());
   std::fill(visited.begin(), visited.end(), false);
 
-  recursiveBacktrack(data, query, cs, embedding, 0);
+  //recursiveBacktrack(data, query, cs, embedding, 0);
+  size_t queryVertexNum = query.GetNumVertices();
 
+  std::vector<double> rank;
+  for (size_t i = 0; i < queryVertexNum; i++) {
+    rank[i] = cs.GetCandidateSize(i) / (0.01 * queryVertexNum / data.GetNumLabels() + query.GetDegree(i))
+  }
+
+  std::vector<std::pair<Vertex, Vertex>> backStack; // Stack for backtracking. Storing pair of <qVertex, dVertexId>
+
+  Vertex qVertex = 0;
+  Vertex dVertex = 0;
+
+  int total = 0;
+
+  for (size_t i = 0; i < cs.GetCandidateSize(qVertex); i++){ // for each candidate v
+            dVertex = cs.GetCandidate(qVertex, i);
+            backStack.push_back(std::make_pair(qVertex, dVertex));
+  }
+
+  while(!backStack.empty()) {
+    qVertex = backStack.back().first;
+    dVertex = backStack.back().second;
+    embedding.push_back(std::make_pair(qVertex, dVertex));
+    // std::cout << "qVertex " << qVertex << std::endl;
+    // conditional branch(1): if |M| = |V(q)|
+    if (qVertex == queryVertexNum - 1) {
+        // TODO : Validation
+        printEmbedding(embedding);
+        backStack.pop_back();
+        embedding.pop_back();
+        total ++;
+
+        while (backStack.back().first < qVertex) {
+            qVertex = backStack.back().first;
+            visited.at(backStack.back().second) = false;
+            embedding.pop_back();
+            backStack.pop_back();
+        }
+
+    }
+    else {
+        visited.at(dVertex) = true;
+
+        // conditional branch(2) and (3)
+        size_t numCandidates = cs.GetCandidateSize(qVertex + 1); // C(r) : Number of candidates for root vertex
+
+        for (size_t i = 0; i < numCandidates; i++){ // for each candidate v
+            dVertex = cs.GetCandidate(qVertex + 1, i);
+
+            // Injective Mapping Condition
+            if (!visited.at(dVertex)) {
+                if (checkEdgeConnection(data, query, embedding, dVertex, qVertex + 1)) {
+                    backStack.push_back(std::make_pair(qVertex + 1, dVertex));
+                }
+            }
+        }
+
+
+        // Dead end, none pushed to stack
+        if (qVertex == backStack.back().first) {
+            visited.at(backStack.back().second) = false;
+            backStack.pop_back();
+            embedding.pop_back();
+
+            while (backStack.back().first < qVertex) {
+                qVertex = backStack.back().first;
+                visited.at(backStack.back().second) = false;
+                embedding.pop_back();
+                backStack.pop_back();
+            }
+
+        }
+
+    }
+  }
+    std::cout << " " << total << " ";
 }
 
 
@@ -59,7 +134,7 @@ void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
 void Backtrack::recursiveBacktrack(const Graph &data, const Graph &query, const CandidateSet &cs,
                                    Embedding &embedding, Vertex qVertex) {
 
-//    std::cout << "qVertex " << qVertex << std::endl;
+    //std::cout << "qVertex " << qVertex << std::endl;
     // conditional branch(1): if |M| = |V(q)|
     if (qVertex == query.GetNumVertices()) {
         // TODO : Validation
@@ -74,7 +149,7 @@ void Backtrack::recursiveBacktrack(const Graph &data, const Graph &query, const 
     for (size_t i = 0; i < numCandidates; i++){ // for each candidate v
 
         Vertex dVertex = cs.GetCandidate(qVertex, i);
-//        std::cout << "dVertex " << dVertex << std::endl;
+        //std::cout << "dVertex " << dVertex << std::endl;
         // Injective Mapping Condition
         if (!visited.at(dVertex)) {
             if (checkEdgeConnection(data, query, embedding, dVertex, qVertex)) {
@@ -87,9 +162,7 @@ void Backtrack::recursiveBacktrack(const Graph &data, const Graph &query, const 
         }
 
     }
-
 }
-
 
 
 bool Backtrack::checkEdgeConnection(const Graph &data, const Graph &query, const Embedding &embedding, Vertex dVertex, Vertex qVertex) {
@@ -114,6 +187,3 @@ void Backtrack::printEmbedding(const Embedding &embedding) {
     }
     std::cout << std::endl;
 }
-
-
-
