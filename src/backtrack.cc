@@ -5,6 +5,8 @@
 
 #include "backtrack.h"
 
+
+
 Backtrack::Backtrack() {}
 Backtrack::~Backtrack() {}
 
@@ -12,8 +14,10 @@ void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
                                 const CandidateSet &cs) {
   std::cout << "t " << query.GetNumVertices() << "\n";
 
+
   // implement your code here.
-  Embedding embedding(query.GetNumVertices());
+  Embedding embedding;
+
   visited.clear();
   visited.resize(data.GetNumVertices());
   std::fill(visited.begin(), visited.end(), false);
@@ -49,31 +53,37 @@ void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
 
 
 
+// TODO: query.GetNumVertices, data.GetNumVertices to static variable
 
 
 void Backtrack::recursiveBacktrack(const Graph &data, const Graph &query, const CandidateSet &cs,
                                    Embedding &embedding, Vertex qVertex) {
 
+//    std::cout << "qVertex " << qVertex << std::endl;
     // conditional branch(1): if |M| = |V(q)|
-    if (embedding.size() == query.GetNumVertices()) {
+    if (qVertex == query.GetNumVertices()) {
         // TODO : Validation
         printEmbedding(embedding);
+        return;
     }
 
-    // conditional branch(2): else if |M| = 0
-    else if (embedding.empty()) {
-        size_t numCandidates = cs.GetCandidateSize(qVertex); // C(r) : Number of candidates for root vertex
-        for (int i = 0; i < numCandidates; i++){ // for each candidate v
-            Vertex dVertex = cs.GetCandidate(qVertex, i);
+    // conditional branch(2) and (3)
+    size_t numCandidates = cs.GetCandidateSize(qVertex); // C(r) : Number of candidates for root vertex
 
-            // push back dVertex
-            if (!visited.at(dVertex) && checkEdgeConnection(data, query, embedding, dVertex, qVertex)) {
+
+    for (size_t i = 0; i < numCandidates; i++){ // for each candidate v
+
+        Vertex dVertex = cs.GetCandidate(qVertex, i);
+//        std::cout << "dVertex " << dVertex << std::endl;
+        // Injective Mapping Condition
+        if (!visited.at(dVertex)) {
+            if (checkEdgeConnection(data, query, embedding, dVertex, qVertex)) {
                 embedding.push_back(std::make_pair(qVertex, dVertex));
-                visited[dVertex] = true;
-                recursiveBacktrack(data, query, cs, embedding, ++qVertex);
-                visited[dVertex] = false;
+                visited.at(dVertex) = true;
+                recursiveBacktrack(data, query, cs, embedding, qVertex + 1);
+                embedding.pop_back();
+                visited.at(dVertex) = false;
             }
-
         }
 
     }
@@ -88,18 +98,19 @@ bool Backtrack::checkEdgeConnection(const Graph &data, const Graph &query, const
 
     // for all vertices in advance of vertex(queryVertex)
     for (Embedding ::const_iterator iter = embedding.begin(); iter != embedding.end(); iter++) {
-        if (data.IsNeighbor(dVertex, iter->second) != query.IsNeighbor(qVertex, iter->first)) {
+        if (!data.IsNeighbor(dVertex, iter->second) && query.IsNeighbor(qVertex, iter->first)) {
             edgeMatches = false;
             return edgeMatches;
         }
     }
+
     return edgeMatches;
 }
 
 void Backtrack::printEmbedding(const Embedding &embedding) {
-    std::cout << "a ";
+    std::cout << "a";
     for (Embedding ::const_iterator iter = embedding.begin(); iter != embedding.end(); iter++) {
-        std::cout << iter->second << " ";
+        std::cout << " " << iter->second;
     }
     std::cout << std::endl;
 }
