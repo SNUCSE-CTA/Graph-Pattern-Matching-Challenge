@@ -29,6 +29,8 @@ class Backtrack {
 
   bool checkEdgeConnection(const Graph &graph, const Graph &query, const Embedding &embedding, Vertex dVertex,
                         Vertex qVertex);
+
+
 };
 
 #endif  // BACKTRACK_H_

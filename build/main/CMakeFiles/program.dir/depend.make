@@ -9,6 +9,7 @@ main/CMakeFiles/program.dir/__/src/backtrack.cc.o: ../src/backtrack.cc
 
 main/CMakeFiles/program.dir/__/src/candidate_set.cc.o: ../include/candidate_set.h
 main/CMakeFiles/program.dir/__/src/candidate_set.cc.o: ../include/common.h
+main/CMakeFiles/program.dir/__/src/candidate_set.cc.o: ../include/graph.h
 main/CMakeFiles/program.dir/__/src/candidate_set.cc.o: ../src/candidate_set.cc
 
 main/CMakeFiles/program.dir/__/src/graph.cc.o: ../include/common.h

@@ -38,6 +38,8 @@ CandidateSet::CandidateSet(const std::string& filename) {
   }
 
   fin.close();
+    
+    
 }
 
 CandidateSet::~CandidateSet() {}

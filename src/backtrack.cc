@@ -10,6 +10,7 @@
 Backtrack::Backtrack() {}
 Backtrack::~Backtrack() {}
 
+
 void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
                                 const CandidateSet &cs) {
   std::cout << "t " << query.GetNumVertices() << "\n";
@@ -17,6 +18,7 @@ void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
 
   // implement your code here.
   Embedding embedding;
+    
 
   visited.clear();
   visited.resize(data.GetNumVertices());
@@ -25,38 +27,42 @@ void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
   //recursiveBacktrack(data, query, cs, embedding, 0);
   size_t queryVertexNum = query.GetNumVertices();
 
-  std::vector<double> rank;
+    std::vector<std::pair<double, Vertex>> rank;
   for (size_t i = 0; i < queryVertexNum; i++) {
-    rank[i] = cs.GetCandidateSize(i) / (0.01 * queryVertexNum / data.GetNumLabels() + query.GetDegree(i))
+    rank.push_back(std::make_pair(cs.GetCandidateSize(i) / (0.01 * queryVertexNum / data.GetNumLabels() + query.GetDegree(i)), i));
   }
+    
+  std::sort(rank.begin(), rank.end());
 
   std::vector<std::pair<Vertex, Vertex>> backStack; // Stack for backtracking. Storing pair of <qVertex, dVertexId>
 
-  Vertex qVertex = 0;
+  Vertex qVertexId = 0;
   Vertex dVertex = 0;
 
   int total = 0;
 
-  for (size_t i = 0; i < cs.GetCandidateSize(qVertex); i++){ // for each candidate v
-            dVertex = cs.GetCandidate(qVertex, i);
-            backStack.push_back(std::make_pair(qVertex, dVertex));
+  for (size_t i = 0; i < cs.GetCandidateSize(rank.at(qVertexId).second); i++){ // for each candidate v
+            dVertex = cs.GetCandidate(rank.at(qVertexId).second, i);
+            backStack.push_back(std::make_pair(qVertexId, dVertex));
   }
 
+
   while(!backStack.empty()) {
-    qVertex = backStack.back().first;
+    qVertexId = backStack.back().first;
+     // std::cout << qVertexId << " ";
     dVertex = backStack.back().second;
-    embedding.push_back(std::make_pair(qVertex, dVertex));
+    embedding.push_back(std::make_pair(rank.at(qVertexId).second, dVertex));
     // std::cout << "qVertex " << qVertex << std::endl;
     // conditional branch(1): if |M| = |V(q)|
-    if (qVertex == queryVertexNum - 1) {
+    if (qVertexId == queryVertexNum - 1) {
         // TODO : Validation
         printEmbedding(embedding);
         backStack.pop_back();
         embedding.pop_back();
         total ++;
 
-        while (backStack.back().first < qVertex) {
-            qVertex = backStack.back().first;
+        while (backStack.back().first < qVertexId) {
+            qVertexId = backStack.back().first;
             visited.at(backStack.back().second) = false;
             embedding.pop_back();
             backStack.pop_back();
@@ -65,30 +71,31 @@ void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
     }
     else {
         visited.at(dVertex) = true;
+        std::cout << " " << qVertexId;
 
         // conditional branch(2) and (3)
-        size_t numCandidates = cs.GetCandidateSize(qVertex + 1); // C(r) : Number of candidates for root vertex
+        size_t numCandidates = cs.GetCandidateSize(rank.at(qVertexId + 1).second); // C(r) : Number of candidates for root vertex
 
         for (size_t i = 0; i < numCandidates; i++){ // for each candidate v
-            dVertex = cs.GetCandidate(qVertex + 1, i);
+            dVertex = cs.GetCandidate(rank.at(qVertexId + 1).second, i);
 
             // Injective Mapping Condition
             if (!visited.at(dVertex)) {
-                if (checkEdgeConnection(data, query, embedding, dVertex, qVertex + 1)) {
-                    backStack.push_back(std::make_pair(qVertex + 1, dVertex));
+                if (checkEdgeConnection(data, query, embedding, dVertex, rank.at(qVertexId + 1).second)) {
+                    backStack.push_back(std::make_pair(qVertexId + 1, dVertex));
                 }
             }
         }
 
 
         // Dead end, none pushed to stack
-        if (qVertex == backStack.back().first) {
+        if (qVertexId == backStack.back().first) {
             visited.at(backStack.back().second) = false;
             backStack.pop_back();
             embedding.pop_back();
 
-            while (backStack.back().first < qVertex) {
-                qVertex = backStack.back().first;
+            while (backStack.back().first < qVertexId) {
+                qVertexId = backStack.back().first;
                 visited.at(backStack.back().second) = false;
                 embedding.pop_back();
                 backStack.pop_back();
@@ -187,3 +194,5 @@ void Backtrack::printEmbedding(const Embedding &embedding) {
     }
     std::cout << std::endl;
 }
+
+
