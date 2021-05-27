@@ -27,7 +27,7 @@ void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
 
   std::vector<double> rank;
   for (size_t i = 0; i < queryVertexNum; i++) {
-    rank[i] = cs.GetCandidateSize(i) / (0.01 * queryVertexNum / data.GetNumLabels() + query.GetDegree(i))
+    rank[i] = cs.GetCandidateSize(i) / (0.01 * queryVertexNum / data.GetNumLabels() + query.GetDegree(i));
   }
 
   std::vector<std::pair<Vertex, Vertex>> backStack; // Stack for backtracking. Storing pair of <qVertex, dVertexId>
