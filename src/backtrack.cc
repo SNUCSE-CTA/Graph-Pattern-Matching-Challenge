@@ -35,6 +35,30 @@ void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
     }
 
     std::sort(rank.begin(), rank.end());
+    
+    std::vector<std::pair<double, Vertex>> Rank;
+    Rank.push_back(rank.at(0));
+    rank.erase(rank.begin());
+    int i = 0;
+    
+    while (!rank.empty()) {
+        bool b = false;
+        int j = 0;
+    
+        while (b == false && j < Rank.size()) {
+            b = query.IsNeighbor(Rank.at(j).second, rank.at(i).second);
+            j++;
+        }
+        if (b == true) {
+            Rank.push_back(rank.at(i));
+            rank.erase(rank.begin() + i);
+            i = 0;
+        }
+        else {
+            i ++;
+        }
+    }
+    rank = Rank;
 
     std::vector<std::pair<Vertex, Vertex>> backStack; // Stack for backtracking. Storing pair of <qVertex, dVertexId>
 

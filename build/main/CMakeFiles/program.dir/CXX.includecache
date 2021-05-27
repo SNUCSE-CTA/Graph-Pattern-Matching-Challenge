@@ -1,0 +1,40 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/candidate_set.h
+common.h
+../include/common.h
+graph.h
+../include/graph.h
+
+../include/common.h
+algorithm
+-
+climits
+-
+fstream
+-
+iostream
+-
+set
+-
+string
+-
+utility
+-
+vector
+-
+
+../include/graph.h
+common.h
+../include/common.h
+
+/Users/jinheepaeng/PrivateGMC/src/candidate_set.cc
+candidate_set.h
+/Users/jinheepaeng/PrivateGMC/src/candidate_set.h
+
