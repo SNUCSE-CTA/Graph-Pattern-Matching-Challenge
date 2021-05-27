@@ -50,6 +50,11 @@ void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
 
 
     while(!backStack.empty()) {
+
+        if (total == 100000) {
+            break;
+        }
+
         qVertexId = backStack.back().first;
         // std::cout << qVertexId << " ";
         dVertex = backStack.back().second;
@@ -122,41 +127,6 @@ void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
 
 
 // TODO: query.GetNumVertices, data.GetNumVertices to static variable
-
-
-void Backtrack::recursiveBacktrack(const Graph &data, const Graph &query, const CandidateSet &cs,
-                                   Embedding &embedding, Vertex qVertex) {
-
-    //std::cout << "qVertex " << qVertex << std::endl;
-    // conditional branch(1): if |M| = |V(q)|
-    if (qVertex == query.GetNumVertices()) {
-        // TODO : Validation
-        printEmbedding(embedding);
-        return;
-    }
-
-    // conditional branch(2) and (3)
-    size_t numCandidates = cs.GetCandidateSize(qVertex); // C(r) : Number of candidates for root vertex
-
-
-    for (size_t i = 0; i < numCandidates; i++){ // for each candidate v
-
-        Vertex dVertex = cs.GetCandidate(qVertex, i);
-        //std::cout << "dVertex " << dVertex << std::endl;
-        // Injective Mapping Condition
-        if (!visited.at(dVertex)) {
-            if (checkEdgeConnection(data, query, embedding, dVertex, qVertex)) {
-                embedding.push_back(std::make_pair(qVertex, dVertex));
-                visited.at(dVertex) = true;
-                recursiveBacktrack(data, query, cs, embedding, qVertex + 1);
-                embedding.pop_back();
-                visited.at(dVertex) = false;
-            }
-        }
-
-    }
-}
-
 
 bool Backtrack::checkEdgeConnection(const Graph &data, const Graph &query, const Embedding &embedding, Vertex dVertex, Vertex qVertex) {
 
