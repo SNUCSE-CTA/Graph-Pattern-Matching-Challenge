@@ -71,8 +71,6 @@ void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
     }
     else {
         visited.at(dVertex) = true;
-        std::cout << " " << qVertexId;
-
         // conditional branch(2) and (3)
         size_t numCandidates = cs.GetCandidateSize(rank.at(qVertexId + 1).second); // C(r) : Number of candidates for root vertex
 
