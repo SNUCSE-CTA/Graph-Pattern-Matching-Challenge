@@ -7,10 +7,11 @@
 #define CANDIDATE_SET_H_
 
 #include "common.h"
+#include "graph.h"
 
 class CandidateSet {
  public:
-  explicit CandidateSet(const std::string& filename);
+  explicit CandidateSet(const std::string& filename, const Graph &data);
   ~CandidateSet();
 
   inline size_t GetCandidateSize(Vertex u) const;

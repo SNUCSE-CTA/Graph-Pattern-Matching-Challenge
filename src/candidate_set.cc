@@ -5,7 +5,7 @@
 
 #include "candidate_set.h"
 
-CandidateSet::CandidateSet(const std::string& filename) {
+CandidateSet::CandidateSet(const std::string& filename, const Graph &data) {
   std::ifstream fin(filename);
 
   if (!fin.is_open()) {
@@ -33,6 +33,13 @@ CandidateSet::CandidateSet(const std::string& filename) {
         Vertex data_vertex;
         fin >> data_vertex;
         cs_[id][i] = data_vertex;
+          
+          // code for sorting CS in degree size order
+         auto compare = [](Vertex u, Vertex v, Graph &data) {
+             return (data.GetDegree(u) < data.GetDegree(v));
+         };
+         std::sort(cs_[id].begin(), cs_[id].end(), compare);
+          
       }
     }
   }
