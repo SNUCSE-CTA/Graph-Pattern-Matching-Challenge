@@ -18,7 +18,7 @@ class Backtrack {
 
   Visited visited;
 
-  void PrintAllMatches(const Graph &data, const Graph &query,
+  bool PrintAllMatches(const Graph &data, const Graph &query,
                        const CandidateSet &cs, bool newRank);
 
   bool validate(const Graph &data, const Graph &query, const Embedding &embedding, std::vector<std::pair<double, Vertex>> &rank);

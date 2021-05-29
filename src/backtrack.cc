@@ -5,7 +5,7 @@
 
 #include "backtrack.h"
 
-#define VALIDATOR // CONDITIONAL COMPILE: VALIDATOR (Comment out not to use validator)
+//#define VALIDATOR // CONDITIONAL COMPILE: VALIDATOR (Comment out not to use validator)
 
 
 
@@ -13,13 +13,15 @@ Backtrack::Backtrack() {}
 Backtrack::~Backtrack() {}
 
 
-void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
+bool Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
                                 const CandidateSet &cs, bool newRank) {
-    std::cout << "t " << query.GetNumVertices() << "\n";
 
-
-    // implement your code here.
     Embedding embedding;
+    time_t start = clock();
+
+    if (newRank) {
+        std::cout << "t " << query.GetNumVertices() << "\n";
+    }
 
 
     visited.clear();
@@ -79,14 +81,16 @@ void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
     while(!backStack.empty()) {
 
         if (total == 100000) {
-            break;
+            return true;
+        }
+
+        if (newRank && total == 0 && (double)(clock() - start)/CLOCKS_PER_SEC  >= 20) {
+            return false;
         }
 
         qVertexId = backStack.back().first;
-        // std::cout << qVertexId << " ";
         dVertex = backStack.back().second;
         embedding.push_back(std::make_pair(rank.at(qVertexId).second, dVertex));
-        // std::cout << "qVertex " << qVertex << std::endl;
         // conditional branch(1): if |M| = |V(q)|
         if (qVertexId == queryVertexNum - 1) {
             // TODO : Validation
@@ -148,7 +152,7 @@ void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
 
         }
     }
-    std::cout << " " << total << " ";
+    return true;
 }
 
 
@@ -213,8 +217,6 @@ bool Backtrack::validate(const Graph &data, const Graph &query, const Embedding 
             dVertex2 = embedding.at(j).second;
 
             if (query.IsNeighbor(qVertex1, qVertex2) && !data.IsNeighbor(dVertex1, dVertex2)) {
-//                std::cout << "QUERY: " << i << " - " << j << " : " << query.IsNeighbor(i, j) << std::endl;
-//                std::cout << "DATA: " << embedding.at(i).second << " - " << embedding.at(j) << " : " << data.IsNeighbor(embedding.at(i).second, embedding.at(j).second) << std::endl
                 std::cout << "Line does not match!" << std::endl;
                 return false;
             }
