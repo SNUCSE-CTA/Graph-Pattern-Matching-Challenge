@@ -6,6 +6,14 @@
 
 #IncludeRegexTransform: 
 
+../include/backtrack.h
+candidate_set.h
+../include/candidate_set.h
+common.h
+../include/common.h
+graph.h
+../include/graph.h
+
 ../include/candidate_set.h
 common.h
 ../include/common.h
@@ -34,7 +42,15 @@ vector
 common.h
 ../include/common.h
 
-/Users/jinheepaeng/PrivateGMC/src/candidate_set.cc
+/Users/jinheepaeng/PrivateGMC/main/main.cc
+time.h
+-
+backtrack.h
+/Users/jinheepaeng/PrivateGMC/main/backtrack.h
 candidate_set.h
-/Users/jinheepaeng/PrivateGMC/src/candidate_set.h
+/Users/jinheepaeng/PrivateGMC/main/candidate_set.h
+common.h
+/Users/jinheepaeng/PrivateGMC/main/common.h
+graph.h
+/Users/jinheepaeng/PrivateGMC/main/graph.h
 

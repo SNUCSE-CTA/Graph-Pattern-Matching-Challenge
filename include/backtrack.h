@@ -19,15 +19,11 @@ class Backtrack {
   Visited visited;
 
   void PrintAllMatches(const Graph &data, const Graph &query,
-                       const CandidateSet &cs);
+                       const CandidateSet &cs, bool newRank);
 
   bool validate(const Graph &data, const Graph &query, const Embedding &embedding, std::vector<std::pair<double, Vertex>> &rank);
 
   void printEmbedding(const Embedding &embedding);
-
-
-  void recursiveBacktrack(const Graph &data, const Graph &query,
-                           const CandidateSet &cs, Embedding &embedding, Vertex qVertex);
 
 
   bool checkEdgeConnection(const Graph &graph, const Graph &query, const Embedding &embedding, Vertex dVertex,
