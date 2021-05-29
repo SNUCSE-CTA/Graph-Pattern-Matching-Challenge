@@ -6,11 +6,8 @@
 #include "candidate_set.h"
 //#define SORT_CANDIDATE_SET
 
-<<<<<<< HEAD
-CandidateSet::CandidateSet(const std::string& filename, const Graph &data, const bool &sortCS) {
-=======
 CandidateSet::CandidateSet(const std::string& filename, const Graph &data, bool useCSrank) {
->>>>>>> 40e7383354249ce7959e1d0c8d920e47882f565b
+
   std::ifstream fin(filename);
 
   if (!fin.is_open()) {
@@ -39,21 +36,10 @@ CandidateSet::CandidateSet(const std::string& filename, const Graph &data, bool 
         fin >> data_vertex;
         cs_[id][i] = data_vertex;
 
-<<<<<<< HEAD
-      }
-
-      if (sortCS) {
-
-          // code for sorting CS in degree size order
-          auto compare = [&data](Vertex u, Vertex v) {
-              return (data.GetDegree(u) < data.GetDegree(v));
-          };
-          std::sort(cs_[id].begin(), cs_[id].end(), compare);
 
       }
-=======
-      }
-        
+
+
         if (useCSrank) {
             // code for sorting CS in degree size order
            auto compare = [&data](Vertex u, Vertex v) {
@@ -61,8 +47,8 @@ CandidateSet::CandidateSet(const std::string& filename, const Graph &data, bool 
            };
            std::sort(cs_[id].begin(), cs_[id].end(), compare);
         }
-        
->>>>>>> 40e7383354249ce7959e1d0c8d920e47882f565b
+
+
 
     }
   }

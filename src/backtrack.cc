@@ -13,13 +13,15 @@ Backtrack::Backtrack() {}
 Backtrack::~Backtrack() {}
 
 
-void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
+bool Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
                                 const CandidateSet &cs, bool newRank) {
-    std::cout << "t " << query.GetNumVertices() << "\n";
 
-
-    // implement your code here.
     Embedding embedding;
+    time_t start = clock();
+
+    if (newRank) {
+        std::cout << "t " << query.GetNumVertices() << "\n";
+    }
 
 
     visited.clear();
@@ -79,7 +81,11 @@ void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
     while(!backStack.empty()) {
 
         if (total == 100000) {
-            break;
+            return true;
+        }
+
+        if (newRank && total == 0 && (double)(clock() - start)/CLOCKS_PER_SEC  >= 20) {
+            return false;
         }
 
         qVertexId = backStack.back().first;
@@ -146,6 +152,7 @@ void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
 
         }
     }
+    return true;
 }
 
 

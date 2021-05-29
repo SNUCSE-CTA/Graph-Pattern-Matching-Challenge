@@ -26,7 +26,12 @@ int main(int argc, char* argv[]) {
 
   Backtrack backtrack;
 
-  backtrack.PrintAllMatches(data, query, candidate_set, true);
-    printf("\t %.2f \t", (double)(clock() - tStart)/CLOCKS_PER_SEC);
+  bool success = backtrack.PrintAllMatches(data, query, candidate_set, true);
+  if (!success) {
+      CandidateSet new_candidate_set(candidate_set_file_name, data, false);
+      backtrack.PrintAllMatches(data, query, new_candidate_set, false);
+  }
+
+    printf("execution time: %.2f \t", (double)(clock() - tStart)/CLOCKS_PER_SEC);
   return EXIT_SUCCESS;
 }
