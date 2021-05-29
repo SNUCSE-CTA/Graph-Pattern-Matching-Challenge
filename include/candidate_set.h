@@ -11,7 +11,7 @@
 
 class CandidateSet {
  public:
-  explicit CandidateSet(const std::string& filename, const Graph &data);
+  explicit CandidateSet(const std::string& filename, const Graph &data, const bool &sortCS);
   ~CandidateSet();
 
   inline size_t GetCandidateSize(Vertex u) const;

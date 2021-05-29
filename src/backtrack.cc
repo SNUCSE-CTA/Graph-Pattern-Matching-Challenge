@@ -5,7 +5,7 @@
 
 #include "backtrack.h"
 
-#define VALIDATOR // CONDITIONAL COMPILE: VALIDATOR (Comment out not to use validator)
+//#define VALIDATOR // CONDITIONAL COMPILE: VALIDATOR (Comment out not to use validator)
 
 
 
@@ -56,10 +56,8 @@ void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
         }
 
         qVertexId = backStack.back().first;
-        // std::cout << qVertexId << " ";
         dVertex = backStack.back().second;
         embedding.push_back(std::make_pair(rank.at(qVertexId).second, dVertex));
-        // std::cout << "qVertex " << qVertex << std::endl;
         // conditional branch(1): if |M| = |V(q)|
         if (qVertexId == queryVertexNum - 1) {
             // TODO : Validation
@@ -121,7 +119,6 @@ void Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
 
         }
     }
-    std::cout << " " << total << " ";
 }
 
 
@@ -186,8 +183,6 @@ bool Backtrack::validate(const Graph &data, const Graph &query, const Embedding 
             dVertex2 = embedding.at(j).second;
 
             if (query.IsNeighbor(qVertex1, qVertex2) && !data.IsNeighbor(dVertex1, dVertex2)) {
-//                std::cout << "QUERY: " << i << " - " << j << " : " << query.IsNeighbor(i, j) << std::endl;
-//                std::cout << "DATA: " << embedding.at(i).second << " - " << embedding.at(j) << " : " << data.IsNeighbor(embedding.at(i).second, embedding.at(j).second) << std::endl
                 std::cout << "Line does not match!" << std::endl;
                 return false;
             }

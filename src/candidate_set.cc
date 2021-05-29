@@ -4,8 +4,9 @@
  */
 
 #include "candidate_set.h"
+//#define SORT_CANDIDATE_SET
 
-CandidateSet::CandidateSet(const std::string& filename, const Graph &data) {
+CandidateSet::CandidateSet(const std::string& filename, const Graph &data, const bool &sortCS) {
   std::ifstream fin(filename);
 
   if (!fin.is_open()) {
@@ -34,13 +35,18 @@ CandidateSet::CandidateSet(const std::string& filename, const Graph &data) {
         fin >> data_vertex;
         cs_[id][i] = data_vertex;
 
+      }
+
+      if (sortCS) {
+
           // code for sorting CS in degree size order
-         auto compare = [&data](Vertex u, Vertex v) {
-             return (data.GetDegree(u) < data.GetDegree(v));
-         };
-         std::sort(cs_[id].begin(), cs_[id].end(), compare);
+          auto compare = [&data](Vertex u, Vertex v) {
+              return (data.GetDegree(u) < data.GetDegree(v));
+          };
+          std::sort(cs_[id].begin(), cs_[id].end(), compare);
 
       }
+
     }
   }
 
