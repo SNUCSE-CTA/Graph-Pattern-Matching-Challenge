@@ -7,6 +7,7 @@
 #include "candidate_set.h"
 #include "common.h"
 #include "graph.h"
+#include <stdio.h>
 
 int main(int argc, char* argv[]) {
   if (argc < 4) {
