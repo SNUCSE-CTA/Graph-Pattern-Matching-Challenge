@@ -1,5 +1,0 @@
-/mnt/c/Users/kokol/Desktop/2021-1수업자료/알고리즘/Graph-Pattern-Matching-Challenge/build/CMakeFiles/rebuild_cache.dir
-/mnt/c/Users/kokol/Desktop/2021-1수업자료/알고리즘/Graph-Pattern-Matching-Challenge/build/CMakeFiles/edit_cache.dir
-/mnt/c/Users/kokol/Desktop/2021-1수업자료/알고리즘/Graph-Pattern-Matching-Challenge/build/main/CMakeFiles/rebuild_cache.dir
-/mnt/c/Users/kokol/Desktop/2021-1수업자료/알고리즘/Graph-Pattern-Matching-Challenge/build/main/CMakeFiles/program.dir
-/mnt/c/Users/kokol/Desktop/2021-1수업자료/알고리즘/Graph-Pattern-Matching-Challenge/build/main/CMakeFiles/edit_cache.dir
