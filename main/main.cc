@@ -2,14 +2,14 @@
  * @file main.cc
  *
  */
-#include <time.h>
+//#include <time.h>
 #include "backtrack.h"
 #include "candidate_set.h"
 #include "common.h"
 #include "graph.h"
 
 int main(int argc, char* argv[]) {
-    clock_t tStart = clock();
+ //   clock_t tStart = clock();
   if (argc < 4) {
     std::cerr << "Usage: ./program <data graph file> <query graph file> "
                  "<candidate set file>\n";
@@ -32,6 +32,6 @@ int main(int argc, char* argv[]) {
       backtrack.PrintAllMatches(data, query, new_candidate_set, false);
   }
 
-    printf("execution time: %.2f \t", (double)(clock() - tStart)/CLOCKS_PER_SEC);
+//  printf("execution time: %.2f \t", (double)(clock() - tStart)/CLOCKS_PER_SEC);
   return EXIT_SUCCESS;
 }

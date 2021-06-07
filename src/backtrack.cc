@@ -23,14 +23,15 @@ bool Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
         std::cout << "t " << query.GetNumVertices() << "\n";
     }
 
-
+    //Array for visited checking - initialization
     visited.clear();
     visited.resize(data.GetNumVertices());
     std::fill(visited.begin(), visited.end(), false);
 
-    //recursiveBacktrack(data, query, cs, embedding, 0);
     size_t queryVertexNum = query.GetNumVertices();
 
+    //rank value computation. rank value is used on topological order of queue, to improve bactracking by giving efficient order.
+    //Idea was from DAG ordering.
     std::vector<std::pair<double, Vertex>> rank;
     for (size_t i = 0; i < queryVertexNum; i++) {
         rank.push_back(std::make_pair(cs.GetCandidateSize(i) / (0.01 * queryVertexNum / data.GetNumLabels() + query.GetDegree(i)), i));
@@ -38,6 +39,7 @@ bool Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
 
     std::sort(rank.begin(), rank.end());
     
+    //To make searching order such that searches nodes that is a connected component of previous queue embedding
     if (newRank) {
         std::vector<std::pair<double, Vertex>> Rank;
         Rank.push_back(rank.at(0));
@@ -71,29 +73,31 @@ bool Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
     Vertex dVertex = 0;
 
     int total = 0;
-
+    
+    // Push root node to stack
     for (size_t i = 0; i < cs.GetCandidateSize(rank.at(qVertexId).second); i++){ // for each candidate v
         dVertex = cs.GetCandidate(rank.at(qVertexId).second, i);
         backStack.push_back(std::make_pair(qVertexId, dVertex));
     }
 
-
+    // DFS backtrack using stack
     while(!backStack.empty()) {
-
+        
+        // In case if the progaram has found 1e-5 solutions.
         if (total == 100000) {
             return true;
         }
-
+        
+        // If first trial has failed, choose second method
         if (newRank && total == 0 && (double)(clock() - start)/CLOCKS_PER_SEC  >= 20) {
             return false;
         }
-
+        
         qVertexId = backStack.back().first;
         dVertex = backStack.back().second;
         embedding.push_back(std::make_pair(rank.at(qVertexId).second, dVertex));
         // conditional branch(1): if |M| = |V(q)|
         if (qVertexId == queryVertexNum - 1) {
-            // TODO : Validation
 
 #ifdef VALIDATOR
             if (validate(data, query, embedding, rank)) {
@@ -134,7 +138,6 @@ bool Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
                 }
             }
 
-
             // Dead end, none pushed to stack
             if (qVertexId == backStack.back().first) {
                 visited.at(backStack.back().second) = false;
@@ -155,10 +158,7 @@ bool Backtrack::PrintAllMatches(const Graph &data, const Graph &query,
     return true;
 }
 
-
-
-// TODO: query.GetNumVertices, data.GetNumVertices to static variable
-
+// return true is choosen vertex of Graph is well connected.
 bool Backtrack::checkEdgeConnection(const Graph &data, const Graph &query, const Embedding &embedding, Vertex dVertex, Vertex qVertex) {
 
     bool edgeMatches = true;
@@ -174,6 +174,7 @@ bool Backtrack::checkEdgeConnection(const Graph &data, const Graph &query, const
     return edgeMatches;
 }
 
+// print the embedding solution
 void Backtrack::printEmbedding(const Embedding &embedding) {
     std::cout << "a";
     for (Embedding ::const_iterator iter = embedding.begin(); iter != embedding.end(); iter++) {
@@ -182,7 +183,7 @@ void Backtrack::printEmbedding(const Embedding &embedding) {
     std::cout << std::endl;
 }
 
-
+// validator
 bool Backtrack::validate(const Graph &data, const Graph &query, const Embedding &embedding, std::vector<std::pair<double, Vertex>> &rank) {
 
     // Things to check
@@ -231,7 +232,7 @@ bool Backtrack::validate(const Graph &data, const Graph &query, const Embedding 
 
 
 /*
- * PSEUDO CODE FOR BACKTRACKING
+ * Basic PSEUDO CODE FOR BACKTRACKING
  * REFERENCE: Efficient Subgraph Matching:
  *            Harmonizing Dynamic Programming, Adaptive Matching Order, and Failing Set Together
  * Backtrack(q, q_D, CS, M)
