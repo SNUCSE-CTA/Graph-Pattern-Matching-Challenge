@@ -16,7 +16,6 @@ class CandidateSet {
   inline size_t GetCandidateSize(Vertex u) const;
   inline Vertex GetCandidate(Vertex u, size_t i) const;
 
- private:
   std::vector<std::vector<Vertex>> cs_;
 };
 

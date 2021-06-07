@@ -12,8 +12,8 @@ main/CMakeFiles/program.dir/__/src/candidate_set.cc.o
  ../include/common.h
  /mnt/c/Users/kokol/Desktop/2021-1수업자료/알고리즘/Graph-Pattern-Matching-Challenge/src/candidate_set.cc
 main/CMakeFiles/program.dir/__/src/graph.cc.o
- ../include/common.h
- ../include/graph.h
+ /mnt/c/Users/kokol/Desktop/2021-1수업자료/알고리즘/Graph-Pattern-Matching-Challenge/include/common.h
+ /mnt/c/Users/kokol/Desktop/2021-1수업자료/알고리즘/Graph-Pattern-Matching-Challenge/include/graph.h
  /mnt/c/Users/kokol/Desktop/2021-1수업자료/알고리즘/Graph-Pattern-Matching-Challenge/src/graph.cc
 main/CMakeFiles/program.dir/main.cc.o
  ../include/backtrack.h

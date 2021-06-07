@@ -40,6 +40,28 @@ vector
 common.h
 ../include/common.h
 
+/mnt/c/Users/kokol/Desktop/2021-1수업자료/알고리즘/Graph-Pattern-Matching-Challenge/include/common.h
+algorithm
+-
+climits
+-
+fstream
+-
+iostream
+-
+set
+-
+string
+-
+utility
+-
+vector
+-
+
+/mnt/c/Users/kokol/Desktop/2021-1수업자료/알고리즘/Graph-Pattern-Matching-Challenge/include/graph.h
+common.h
+/mnt/c/Users/kokol/Desktop/2021-1수업자료/알고리즘/Graph-Pattern-Matching-Challenge/include/common.h
+
 /mnt/c/Users/kokol/Desktop/2021-1수업자료/알고리즘/Graph-Pattern-Matching-Challenge/main/main.cc
 backtrack.h
 /mnt/c/Users/kokol/Desktop/2021-1수업자료/알고리즘/Graph-Pattern-Matching-Challenge/main/backtrack.h
@@ -55,13 +77,9 @@ stdio.h
 /mnt/c/Users/kokol/Desktop/2021-1수업자료/알고리즘/Graph-Pattern-Matching-Challenge/src/backtrack.cc
 backtrack.h
 /mnt/c/Users/kokol/Desktop/2021-1수업자료/알고리즘/Graph-Pattern-Matching-Challenge/src/backtrack.h
-stdio.h
--
 vector
 -
-utility
--
-algorithm
+cmath
 -
 
 /mnt/c/Users/kokol/Desktop/2021-1수업자료/알고리즘/Graph-Pattern-Matching-Challenge/src/candidate_set.cc
@@ -69,6 +87,6 @@ candidate_set.h
 /mnt/c/Users/kokol/Desktop/2021-1수업자료/알고리즘/Graph-Pattern-Matching-Challenge/src/candidate_set.h
 
 /mnt/c/Users/kokol/Desktop/2021-1수업자료/알고리즘/Graph-Pattern-Matching-Challenge/src/graph.cc
-graph.h
-/mnt/c/Users/kokol/Desktop/2021-1수업자료/알고리즘/Graph-Pattern-Matching-Challenge/src/graph.h
+../include/graph.h
+/mnt/c/Users/kokol/Desktop/2021-1수업자료/알고리즘/Graph-Pattern-Matching-Challenge/include/graph.h
 

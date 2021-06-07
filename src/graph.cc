@@ -3,7 +3,7 @@
  *
  */
 
-#include "graph.h"
+#include "../include/graph.h"
 
 namespace {
 std::vector<Label> transferred_label;
